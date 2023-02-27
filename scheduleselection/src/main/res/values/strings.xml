@@ -1,0 +1,9 @@
+<resources>
+	<string name="app_name">signIn</string>
+	<string name="welcome">Вход в аккаунт</string>
+	<string name="hint_group">Введите номер группы...</string>
+	<string name="hint_teacher">Введите имя преподавателя...</string>
+	<string name="hint_classroom">Введите номер аудитории...</string>
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
