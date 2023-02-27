@@ -1,0 +1,9 @@
+<resources>
+	<string name="app_name">signIn</string>
+	<string name="welcome">Вход в аккаунт</string>
+	<string name="hint_email">Email</string>
+	<string name="hint_password">Пароль</string>
+	<string name="error_empty_email">Введите email</string>
+	<string name="error_empty_password">Введите пароль</string>
+	<string name="sign_in">Войти</string>
+</resources>
