@@ -2,7 +2,12 @@ package com.tsu.timely
 
 import android.app.Application
 import com.tsu.timely.di.appModule
+import com.tsu.timely.di.moshiModule
+import com.tsu.timely.di.networkModule
 import com.tsu.timely.di.routerModule
+import com.tsu.timely.di.scheduleSelectionModule
+import com.tsu.timely.di.signInModule
+import com.tsu.timely.di.startModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger
@@ -33,6 +38,12 @@ class App : Application() {
 
 			modules(appModule)
 			modules(routerModule)
+			modules(networkModule)
+			modules(moshiModule)
+
+			modules(signInModule)
+			modules(startModule)
+			modules(scheduleSelectionModule)
 		}
 	}
 }

@@ -1,0 +1,8 @@
+<resources>
+	<string name="app_name">Timely</string>
+	<string name="sign_in">Войти в аккаунт</string>
+	<string name="without_auth">- Или вы можете посмотреть расписание -</string>
+	<string name="check_groups">Групп</string>
+	<string name="check_classrooms">Аудиторий</string>
+	<string name="check_teachers">Преподавателей</string>
+</resources>
