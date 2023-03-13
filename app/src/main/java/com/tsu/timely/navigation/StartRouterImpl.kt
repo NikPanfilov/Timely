@@ -4,6 +4,7 @@ import com.tsu.dailyschedule.DailyScheduleDestination
 import com.tsu.scheduleselection.ScheduleSelectionDestination
 import com.tsu.shared.navigation.GlobalRouter
 import com.tsu.signin.SignInDestination
+import com.tsu.signup.SignUpDestination
 import com.tsu.start.presentation.StartRouter
 
 class StartRouterImpl(
@@ -12,6 +13,10 @@ class StartRouterImpl(
 
 	override fun navigateToSignIn() {
 		router.open(SignInDestination())
+	}
+
+	override fun navigateToSignUp() {
+		router.open(SignUpDestination())
 	}
 
 	override fun navigateToScheduleSelection(type: String) {

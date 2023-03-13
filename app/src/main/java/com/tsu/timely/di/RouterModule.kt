@@ -4,12 +4,14 @@ import com.tsu.dailyschedule.presentation.DailyScheduleRouter
 import com.tsu.details.presentation.DetailsRouter
 import com.tsu.scheduleselection.presentation.ScheduleSelectionRouter
 import com.tsu.signin.presentation.SignInRouter
+import com.tsu.signup.presentation.SignUpRouter
 import com.tsu.start.presentation.StartRouter
 import com.tsu.timely.navigation.DailyScheduleRouterImpl
 import com.tsu.timely.navigation.DetailsRouterImpl
 import com.tsu.timely.navigation.MainActivityRouterImpl
 import com.tsu.timely.navigation.ScheduleSelectionRouterImpl
 import com.tsu.timely.navigation.SignInRouterImpl
+import com.tsu.timely.navigation.SignUpRouterImpl
 import com.tsu.timely.navigation.StartRouterImpl
 import com.tsu.timely.navigation.WeeklyScheduleRouterImpl
 import com.tsu.timely.presentation.MainActivityRouter
@@ -24,4 +26,5 @@ val routerModule = module {
 	factory<DailyScheduleRouter> { DailyScheduleRouterImpl(get()) }
 	factory<WeeklyScheduleRouter> { WeeklyScheduleRouterImpl(get()) }
 	factory<DetailsRouter> { DetailsRouterImpl(get()) }
+	factory<SignUpRouter> { SignUpRouterImpl(get()) }
 }

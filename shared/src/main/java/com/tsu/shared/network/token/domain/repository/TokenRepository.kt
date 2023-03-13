@@ -1,4 +1,4 @@
-package com.tsu.signin.domain.repository
+package com.tsu.shared.network.token.domain.repository
 
 interface TokenRepository {
 

@@ -1,4 +1,4 @@
-package com.tsu.signin.data.storage
+package com.tsu.shared.network.token.data.storage
 
 interface TokenDataStorage {
 

@@ -1,6 +1,6 @@
-package com.tsu.signin.domain.usecase
+package com.tsu.shared.network.token.domain.usecase
 
-import com.tsu.signin.domain.repository.TokenRepository
+import com.tsu.shared.network.token.domain.repository.TokenRepository
 
 class SaveTokenUseCase(
 	private val repository: TokenRepository,

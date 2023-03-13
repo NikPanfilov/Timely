@@ -1,0 +1,10 @@
+<resources>
+	<string name="welcome">Добро пожаловать</string>
+	<string name="hint_email">Email</string>
+	<string name="hint_password">Пароль</string>
+	<string name="error_empty_email">Введите email</string>
+	<string name="error_empty_password">Введите пароль</string>
+	<string name="error_empty_full_name">Введите ФИО</string>
+	<string name="hint_full_name">Полное имя</string>
+	<string name="sign_up">Зарегистрироваться</string>
+</resources>

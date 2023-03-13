@@ -18,7 +18,8 @@ class SharedPrefsUserStorage(context: Context) : UserDataStorage {
 	override fun loadData(): UserDataDto {
 		return UserDataDto(
 			type = sharedPreferences.getString(TYPE, null),
-			id = sharedPreferences.getString(ID, null)
+			id = sharedPreferences.getString(ID, null),
+			token = sharedPreferences.getString(TOKEN, null)
 		)
 	}
 

@@ -35,11 +35,11 @@ class StartViewModel(
 
 	init {
 		if (isFromApp)
-			x()
+			navigateToUserSchedule()
 	}
 
-	private fun x() {
-		if (data.id != null && (data.type == GROUPS || data.type == TEACHERS))
+	private fun navigateToUserSchedule() {
+		if (data.id != null && (data.type == GROUPS || data.type == TEACHERS) && data.token != null)
 			navigateToDailySchedule(data.type, data.id)
 	}
 
@@ -49,6 +49,10 @@ class StartViewModel(
 
 	fun navigateToScheduleSelection(type: String) {
 		router.navigateToScheduleSelection(type)
+	}
+
+	fun navigateToSignUp() {
+		router.navigateToSignUp()
 	}
 
 	private fun navigateToDailySchedule(type: String, id: String) {
@@ -64,5 +68,5 @@ class StartViewModel(
 		}
 	}
 
-	fun isUserLogged() = (data.id != null || data.type != null)
+	fun isUserLogged() = ((data.id != null && data.type != null) || data.token != null)
 }

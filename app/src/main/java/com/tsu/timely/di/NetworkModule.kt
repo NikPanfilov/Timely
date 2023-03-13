@@ -5,6 +5,11 @@ import com.tsu.shared.network.interceptors.noConnectionInterceptor
 import com.tsu.shared.network.interceptors.tokenInterceptor
 import com.tsu.shared.network.provider.provideOkHttpClient
 import com.tsu.shared.network.provider.provideRetrofit
+import com.tsu.shared.network.token.data.repository.TokenRepositoryImpl
+import com.tsu.shared.network.token.data.storage.TokenDataStorage
+import com.tsu.shared.network.token.domain.repository.TokenRepository
+import com.tsu.shared.network.token.domain.usecase.SaveTokenUseCase
+import com.tsu.signin.data.storage.SharedPrefsDataStorage
 import com.tsu.timely.App.Companion.BACKEND
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
@@ -27,4 +32,8 @@ val networkModule = module {
 		)
 	}
 	single { provideRetrofit(okHttpClient = get(), moshi = get(), url = getProperty(BACKEND)) }
+
+	factory<TokenDataStorage> { SharedPrefsDataStorage(get()) }
+	factory<TokenRepository> { TokenRepositoryImpl(get()) }
+	factory { SaveTokenUseCase(get()) }
 }

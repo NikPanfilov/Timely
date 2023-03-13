@@ -2,11 +2,11 @@ package com.tsu.signin.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tsu.shared.network.token.domain.usecase.SaveTokenUseCase
 import com.tsu.shared.network.utils.CoroutineNetworkExceptionHandler
 import com.tsu.signin.domain.entity.LoginData
 import com.tsu.signin.domain.entity.TokenResponse
 import com.tsu.signin.domain.usecase.LoginUseCase
-import com.tsu.signin.domain.usecase.SaveTokenUseCase
 import com.tsu.signin.domain.usecase.SaveUserDataUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

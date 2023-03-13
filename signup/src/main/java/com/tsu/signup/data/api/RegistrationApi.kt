@@ -6,6 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface RegistrationApi {
-	@POST("api/account/login")
-	suspend fun login(@Body data: UserRegisterDataDto): TokenResponseDto
+
+	@POST("api/account/register")
+	suspend fun registration(@Body data: UserRegisterDataDto): TokenResponseDto
 }

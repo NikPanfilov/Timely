@@ -9,6 +9,7 @@ import com.tsu.timely.di.networkModule
 import com.tsu.timely.di.routerModule
 import com.tsu.timely.di.scheduleSelectionModule
 import com.tsu.timely.di.signInModule
+import com.tsu.timely.di.signUpModule
 import com.tsu.timely.di.startModule
 import com.tsu.timely.di.timeIntervalsModule
 import com.tsu.timely.di.weeklyScheduleModule
@@ -52,6 +53,7 @@ class App : Application() {
 			modules(dailyScheduleModule)
 			modules(weeklyScheduleModule)
 			modules(detailsModule)
+			modules(signUpModule)
 		}
 	}
 }

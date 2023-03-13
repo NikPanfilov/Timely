@@ -34,10 +34,12 @@ class StartFragment : Fragment() {
 		binding.bindData(viewModel, lifecycleScope)
 		if (viewModel.isUserLogged()) {
 			binding.logoutButton.visibility = View.VISIBLE
-			binding.signInButton.visibility = View.GONE
+			binding.signInButton.visibility = View.INVISIBLE
+			binding.signUpButton.visibility = View.INVISIBLE
 		} else {
 			binding.logoutButton.visibility = View.GONE
 			binding.signInButton.visibility = View.VISIBLE
+			binding.signUpButton.visibility = View.VISIBLE
 		}
 
 		return binding.root
