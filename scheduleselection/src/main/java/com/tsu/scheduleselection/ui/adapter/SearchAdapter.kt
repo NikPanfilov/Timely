@@ -23,7 +23,7 @@ class SearchAdapter(private val clickListener: (String) -> Unit) : RecyclerView.
 
 	override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
 		holder.binding.itemTextView.text = data[position].name
-		holder.binding.root.setOnClickListener { clickListener(data[position].name) }
+		holder.binding.root.setOnClickListener { clickListener(data[position].id) }
 	}
 
 	override fun getItemCount() = data.size

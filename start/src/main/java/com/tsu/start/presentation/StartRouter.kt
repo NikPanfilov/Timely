@@ -1,10 +1,8 @@
 package com.tsu.start.presentation
 
-import com.tsu.shared.ScheduleType
-
 interface StartRouter {
 
 	fun navigateToSignIn()
-	fun navigateToScheduleSelection(type: ScheduleType)
-	fun navigateToSchedule()
+	fun navigateToScheduleSelection(type: String)
+	fun navigateToDailySchedule(type: String, id: String)
 }

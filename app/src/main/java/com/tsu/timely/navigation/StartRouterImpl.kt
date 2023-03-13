@@ -1,7 +1,7 @@
 package com.tsu.timely.navigation
 
+import com.tsu.dailyschedule.DailyScheduleDestination
 import com.tsu.scheduleselection.ScheduleSelectionDestination
-import com.tsu.shared.ScheduleType
 import com.tsu.shared.navigation.GlobalRouter
 import com.tsu.signin.SignInDestination
 import com.tsu.start.presentation.StartRouter
@@ -11,14 +11,14 @@ class StartRouterImpl(
 ) : StartRouter {
 
 	override fun navigateToSignIn() {
-		router.open(SignInDestination)
+		router.open(SignInDestination())
 	}
 
-	override fun navigateToScheduleSelection(type: ScheduleType) {
+	override fun navigateToScheduleSelection(type: String) {
 		router.open(ScheduleSelectionDestination(scheduleType = type))
 	}
 
-	override fun navigateToSchedule() {
-		//router.open()
+	override fun navigateToDailySchedule(type: String, id: String) {
+		router.open(DailyScheduleDestination(scheduleType = type, id = id))
 	}
 }

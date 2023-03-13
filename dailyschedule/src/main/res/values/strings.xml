@@ -1,0 +1,12 @@
+<resources>
+	<string name="app_name">signIn</string>
+	<string name="no_lesson">Пары нет.</string>
+	<string name="to_weekly">Расписание на неделю</string>
+	<string name="change_schedule">Другое расписание</string>
+
+	<string name="laboratory">Лабораторная</string>
+	<string name="lecture">Лекция</string>
+	<string name="practise">Практика</string>
+	<string name="seminar">Семинар</string>
+	<string name="exam">Экзамен</string>
+</resources>

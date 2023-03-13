@@ -5,4 +5,6 @@ import com.tsu.start.domain.model.UserData
 interface UserDataRepository {
 
 	fun loadData(): UserData
+
+	fun clearData()
 }

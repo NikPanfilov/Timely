@@ -1,7 +1,6 @@
 package com.tsu.scheduleselection.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,12 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tsu.scheduleselection.R
 import com.tsu.scheduleselection.databinding.FragmentScheduleSelectionBinding
 import com.tsu.scheduleselection.presentation.ScheduleSelectionViewModel
 import com.tsu.scheduleselection.ui.adapter.SearchAdapter
-import com.tsu.shared.ScheduleType
+import com.tsu.shared.GROUPS
+import com.tsu.shared.TEACHERS
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -36,29 +37,36 @@ class ScheduleSelectionFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View {
 
-		adapter = SearchAdapter(this::clickListItem) // Создание объекта
-		//adapter.data = personService.getPersons() // Заполнение данными
+		adapter = SearchAdapter(this::clickListItem)
 
-		binding.searchRecyclerView.layoutManager = LinearLayoutManager(this.context) // Назначение LayoutManager для RecyclerView
-		binding.searchRecyclerView.adapter = adapter // Назначение адаптера для RecyclerView
+		binding.searchRecyclerView.layoutManager = LinearLayoutManager(this.context)
+		binding.searchRecyclerView.adapter = adapter
 
 		binding.bindData(viewModel, viewLifecycleOwner.lifecycleScope, adapter)
 
-		// Inflate the layout for this fragment
+		binding.editTextSearch.hint = when (searchType) {
+			GROUPS   -> getString(R.string.hint_group)
+			TEACHERS -> getString(R.string.hint_teacher)
+			else     -> getString(R.string.hint_classroom)
+		}
+
 		return binding.root
 	}
 
-	private fun clickListItem(text: String) {
-		Log.i("work?", text)
+	private fun clickListItem(id: String) {
+		viewModel.navigateToDailySchedule(id)
 	}
+
+	var searchType = ""
 
 	companion object {
 
 		private const val TYPE = "type"
 
 		@JvmStatic
-		fun newInstance(type: ScheduleType) =
+		fun newInstance(type: String) =
 			ScheduleSelectionFragment().apply {
+				searchType = type
 				arguments = bundleOf(TYPE to type)
 			}
 	}

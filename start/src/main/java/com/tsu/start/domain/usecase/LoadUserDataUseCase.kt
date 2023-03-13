@@ -5,7 +5,5 @@ import com.tsu.start.domain.repository.UserDataRepository
 
 class LoadUserDataUseCase(private val repository: UserDataRepository) {
 
-	fun invoke(): UserData {
-		return repository.loadData()
-	}
+	operator fun invoke(): UserData = repository.loadData()
 }

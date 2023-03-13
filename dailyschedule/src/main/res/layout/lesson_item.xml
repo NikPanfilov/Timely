@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:padding="16dp">
+
+	<View
+		android:id="@+id/view"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:layout_marginBottom="5dp"
+		android:layout_marginEnd="5dp"
+		android:layout_marginStart="5dp"
+		android:layout_marginTop="5dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+		android:id="@+id/subjectTextView"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="5dp"
+		android:layout_marginStart="8dp"
+		android:layout_marginTop="10dp"
+		android:textColor="@android:color/black"
+		android:textSize="18sp"
+		android:textStyle="bold"
+		app:layout_constraintEnd_toEndOf="@+id/view"
+		app:layout_constraintStart_toEndOf="@+id/subjectImageView"
+		app:layout_constraintTop_toTopOf="@+id/view" />
+
+	<ImageView
+		android:id="@+id/subjectImageView"
+		android:layout_width="35dp"
+		android:layout_height="0dp"
+		android:layout_marginStart="10dp"
+		android:adjustViewBounds="true"
+		android:scaleType="fitCenter"
+		android:src="@drawable/subject"
+		app:layout_constraintBottom_toBottomOf="@+id/subjectTextView"
+		app:layout_constraintStart_toStartOf="@+id/view"
+		app:layout_constraintTop_toTopOf="@+id/subjectTextView"
+		app:srcCompat="@drawable/subject" />
+
+	<TextView
+		android:id="@+id/groupTextView"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="7dp"
+		android:textColor="@android:color/black"
+		android:textSize="16sp"
+		app:layout_constraintEnd_toEndOf="@+id/subjectTextView"
+		app:layout_constraintStart_toStartOf="@+id/subjectTextView"
+		app:layout_constraintTop_toBottomOf="@+id/subjectTextView" />
+
+	<ImageView
+		android:id="@+id/groupImageView"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:adjustViewBounds="true"
+		android:scaleType="fitCenter"
+		app:layout_constraintBottom_toBottomOf="@+id/groupTextView"
+		app:layout_constraintEnd_toEndOf="@+id/subjectImageView"
+		app:layout_constraintStart_toStartOf="@+id/subjectImageView"
+		app:layout_constraintTop_toTopOf="@+id/groupTextView"
+		app:srcCompat="@drawable/group" />
+
+	<TextView
+		android:id="@+id/classroomTextView"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="7dp"
+		android:textColor="@android:color/black"
+		android:textSize="16sp"
+		app:layout_constraintEnd_toEndOf="@+id/groupTextView"
+		app:layout_constraintStart_toStartOf="@+id/subjectTextView"
+		app:layout_constraintTop_toBottomOf="@+id/groupTextView" />
+
+	<ImageView
+		android:id="@+id/classroomImageView"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:adjustViewBounds="true"
+		android:scaleType="fitCenter"
+		app:layout_constraintBottom_toBottomOf="@+id/classroomTextView"
+		app:layout_constraintEnd_toEndOf="@+id/subjectImageView"
+		app:layout_constraintStart_toStartOf="@+id/subjectImageView"
+		app:layout_constraintTop_toTopOf="@+id/classroomTextView"
+		app:srcCompat="@drawable/classroom" />
+
+	<TextView
+		android:id="@+id/teacherTextView"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="7dp"
+		android:textColor="@android:color/black"
+		android:textSize="16sp"
+		app:layout_constraintEnd_toEndOf="@+id/classroomTextView"
+		app:layout_constraintStart_toStartOf="@+id/subjectTextView"
+		app:layout_constraintTop_toBottomOf="@+id/classroomTextView" />
+
+	<ImageView
+		android:id="@+id/teacherImageView"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:adjustViewBounds="true"
+		android:scaleType="fitCenter"
+		app:layout_constraintBottom_toBottomOf="@+id/teacherTextView"
+		app:layout_constraintEnd_toEndOf="@+id/subjectImageView"
+		app:layout_constraintStart_toStartOf="@+id/subjectImageView"
+		app:layout_constraintTop_toTopOf="@+id/teacherTextView"
+		app:srcCompat="@drawable/teacher" />
+
+	<TextView
+		android:id="@+id/timeTextView"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="10dp"
+		android:layout_marginTop="7dp"
+		android:textColor="@android:color/black"
+		android:textSize="16sp"
+		app:layout_constraintBottom_toBottomOf="@+id/view"
+		app:layout_constraintEnd_toEndOf="@+id/teacherTextView"
+		app:layout_constraintStart_toStartOf="@+id/subjectTextView"
+		app:layout_constraintTop_toBottomOf="@+id/teacherTextView" />
+
+	<ImageView
+		android:id="@+id/timeImageView"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:adjustViewBounds="true"
+		android:scaleType="fitCenter"
+		app:layout_constraintBottom_toBottomOf="@+id/timeTextView"
+		app:layout_constraintEnd_toEndOf="@+id/subjectImageView"
+		app:layout_constraintStart_toStartOf="@+id/subjectImageView"
+		app:layout_constraintTop_toTopOf="@+id/timeTextView"
+		app:srcCompat="@drawable/time" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

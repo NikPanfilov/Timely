@@ -13,7 +13,7 @@ internal fun FragmentScheduleSelectionBinding.bindData(viewModel: ScheduleSelect
 
 	scope.launchWhenResumed {
 		viewModel.searchMutableFlow.onEach {
-			listAdapter.data = viewModel.getList()
+			listAdapter.data = viewModel.getList(it ?: "")
 		}.collect()
 	}
 }

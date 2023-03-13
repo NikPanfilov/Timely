@@ -7,6 +7,6 @@ class MainViewModel(
 ) : ViewModel() {
 
 	fun openStartScreen() {
-		router.navigateToStartScreen()
+		router.navigateToStartScreen(true)
 	}
 }

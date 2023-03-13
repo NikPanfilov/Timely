@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<ImageView
+		android:id="@+id/noLessonImageView"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:visibility="gone"
+		app:layout_constraintBottom_toBottomOf="@+id/scheduleRecyclerView"
+		app:layout_constraintEnd_toEndOf="@+id/scheduleRecyclerView"
+		app:layout_constraintStart_toStartOf="@+id/scheduleRecyclerView"
+		app:layout_constraintTop_toTopOf="@+id/scheduleRecyclerView"
+		app:srcCompat="@drawable/hang_out" />
+
+	<LinearLayout
+		android:id="@+id/linearLayout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="5dp"
+		android:layout_marginStart="5dp"
+		android:layout_marginTop="5dp"
+		android:gravity="center"
+		android:orientation="horizontal"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<androidx.constraintlayout.widget.Group
+			android:id="@+id/daysGroup"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:constraint_referenced_ids="mondayButton,thursdayButton,wednesdayButton,tuesdayButton,fridayButton,saturdayButton,sundayButton" />
+
+		<Button
+			android:id="@+id/prevWeekButton"
+			style="@style/DayButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="-" />
+
+		<Button
+			android:id="@+id/mondayButton"
+			style="@style/DayButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:padding="0dp"
+			android:text="ПН" />
+
+		<Button
+			android:id="@+id/tuesdayButton"
+			style="@style/DayButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="ВТ" />
+
+		<Button
+			android:id="@+id/wednesdayButton"
+			style="@style/DayButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="СР" />
+
+		<Button
+			android:id="@+id/thursdayButton"
+			style="@style/DayButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="ЧТ" />
+
+		<Button
+			android:id="@+id/fridayButton"
+			style="@style/DayButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="ПТ" />
+
+		<Button
+			android:id="@+id/saturdayButton"
+			style="@style/DayButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="СБ" />
+
+		<Button
+			android:id="@+id/sundayButton"
+			style="@style/DayButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="ВС" />
+
+		<Button
+			android:id="@+id/nextWeekButton"
+			style="@style/DayButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="-" />
+
+	</LinearLayout>
+
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/scheduleRecyclerView"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:foregroundGravity="top|center_horizontal"
+		app:layout_constraintBottom_toTopOf="@+id/toWeeklyButton"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+	</androidx.recyclerview.widget.RecyclerView>
+
+	<Button
+		android:id="@+id/toWeeklyButton"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="5dp"
+		android:layout_marginStart="5dp"
+		android:backgroundTint="@color/green_primary"
+		android:elevation="5dp"
+		android:padding="0dp"
+		android:text="@string/to_weekly"
+		android:textAllCaps="false"
+		android:textColor="@color/white"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/guideline"
+		app:layout_constraintStart_toStartOf="parent" />
+
+	<Button
+		android:id="@+id/toStartButton"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:layout_marginBottom="5dp"
+		android:layout_marginEnd="5dp"
+		android:backgroundTint="@color/white"
+		android:elevation="5dp"
+		android:padding="0dp"
+		android:text="@string/change_schedule"
+		android:textAllCaps="false"
+		android:textColor="@color/green_primary"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="@+id/guideline"
+		app:layout_constraintTop_toTopOf="@+id/toWeeklyButton" />
+
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/guideline"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

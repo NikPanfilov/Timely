@@ -2,5 +2,7 @@ package com.tsu.signin.presentation
 
 interface SignInRouter {
 
-	fun navigateToWeeklySchedule()
+	fun navigateToDailySchedule(id: String, type: String)
+
+	fun navigateToStart()
 }

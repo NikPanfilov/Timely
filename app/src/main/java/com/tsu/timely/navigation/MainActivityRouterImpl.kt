@@ -8,7 +8,7 @@ class MainActivityRouterImpl(
 	private val router: GlobalRouter
 ) : MainActivityRouter {
 
-	override fun navigateToStartScreen() {
-		router.open(StartDestination)
+	override fun navigateToStartScreen(isFromApp:Boolean) {
+		router.open(StartDestination(isFromApp))
 	}
 }

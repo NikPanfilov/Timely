@@ -1,10 +1,11 @@
 package com.tsu.start
 
-import androidx.fragment.app.Fragment
 import com.tsu.shared.navigation.FragmentDestination
 import com.tsu.start.ui.StartFragment
 
-object StartDestination : FragmentDestination {
+class StartDestination(
+	private val isFromApp: Boolean,
+) : FragmentDestination {
 
-	override fun createInstance(): Fragment = StartFragment()
+	override fun createInstance() = StartFragment.newInstance(isFromApp)
 }

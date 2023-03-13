@@ -7,6 +7,18 @@
 	<color name="teal_700">#FF018786</color>
 	<color name="black">#FF000000</color>
 	<color name="white">#FFFFFFFF</color>
-	<color name="green_primary">#388E3C</color>
-	<color name="green_secondary">#4CAF50</color>
+	<color name="green_primary">#00726D</color>
+	<color name="green_secondary">#4B7D7A</color>
+
+	<color name="laboratory">#E6F6FF</color>
+	<color name="lecture">#FFF0EF</color>
+	<color name="practise">#F0F5FF</color>
+	<color name="seminar">#FFF7E6</color>
+	<color name="exam">#F8F0FF</color>
+
+	<color name="laboratory_text">#5795e5</color>
+	<color name="lecture_text">#df595c</color>
+	<color name="practise_text">#5367d3</color>
+	<color name="seminar_text">#dc843d</color>
+	<color name="exam_text">#7f55c1</color>
 </resources>

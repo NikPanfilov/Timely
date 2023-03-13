@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<TextView
+		android:id="@+id/subjectTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="25dp"
+		android:layout_marginTop="20dp"
+		android:fontFamily="@font/poppins_bold"
+		android:gravity="start"
+		android:text="@string/placeholder_subject"
+		android:textColor="@color/green_primary"
+		android:textSize="20sp"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+		android:id="@+id/typeTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="5dp"
+		android:background="@drawable/tag"
+		android:fontFamily="@font/poppins_italic"
+		android:padding="7dp"
+		android:text="@string/placeholder_type"
+		android:textSize="16sp"
+		app:layout_constraintBottom_toBottomOf="@+id/subjectTextView"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintStart_toEndOf="@+id/subjectTextView"
+		app:layout_constraintTop_toTopOf="@+id/subjectTextView"
+		app:layout_constraintVertical_bias="0.0" />
+
+	<ImageView
+		android:id="@+id/timeImageView"
+		android:layout_width="wrap_content"
+		android:layout_height="0dp"
+		android:layout_marginStart="30dp"
+		android:adjustViewBounds="true"
+		android:scaleType="fitCenter"
+		android:src="@drawable/time"
+		app:layout_constraintBottom_toBottomOf="@+id/timeIntervalTextView"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/timeIntervalTextView" />
+
+	<TextView
+		android:id="@+id/timeIntervalTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="10dp"
+		android:layout_marginTop="35dp"
+		android:text="@string/placeholder_time_interval"
+		android:textColor="@color/green_secondary"
+		android:textSize="16sp"
+		app:layout_constraintStart_toEndOf="@+id/timeImageView"
+		app:layout_constraintTop_toBottomOf="@+id/subjectTextView" />
+
+	<ImageView
+		android:id="@+id/classroomImageView"
+		android:layout_width="wrap_content"
+		android:layout_height="0dp"
+		android:adjustViewBounds="true"
+		android:scaleType="fitCenter"
+		app:layout_constraintBottom_toBottomOf="@+id/classroomTextView"
+		app:layout_constraintStart_toStartOf="@+id/groupsList"
+		app:layout_constraintTop_toTopOf="@+id/classroomTextView"
+		app:srcCompat="@drawable/classroom" />
+
+	<TextView
+		android:id="@+id/classroomTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="10dp"
+		android:layout_marginTop="20dp"
+		android:text="@string/placeholder_classroom"
+		android:textColor="@color/green_secondary"
+		android:textSize="16sp"
+		app:layout_constraintStart_toEndOf="@+id/classroomImageView"
+		app:layout_constraintTop_toBottomOf="@+id/groupsList" />
+
+	<ImageView
+		android:id="@+id/teacherImageView"
+		android:layout_width="wrap_content"
+		android:layout_height="0dp"
+		android:adjustViewBounds="true"
+		android:scaleType="fitCenter"
+		app:layout_constraintBottom_toBottomOf="@+id/teacherTextView"
+		app:layout_constraintStart_toStartOf="@+id/classroomImageView"
+		app:layout_constraintTop_toTopOf="@+id/teacherTextView"
+		app:srcCompat="@drawable/teacher" />
+
+	<TextView
+		android:id="@+id/teacherTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="10dp"
+		android:layout_marginTop="20dp"
+		android:text="@string/placeholder_teacher"
+		android:textColor="@color/green_secondary"
+		android:textSize="16sp"
+		app:layout_constraintStart_toEndOf="@+id/teacherImageView"
+		app:layout_constraintTop_toBottomOf="@+id/classroomTextView" />
+
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/groupsList"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="15dp"
+		android:layout_marginTop="20dp"
+		android:foregroundGravity="top|center"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="@+id/timeImageView"
+		app:layout_constraintTop_toBottomOf="@+id/timeIntervalTextView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

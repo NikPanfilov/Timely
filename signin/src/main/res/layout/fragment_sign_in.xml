@@ -8,23 +8,29 @@
 
 	<EditText
 		android:id="@+id/editTextEmail"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:layout_marginEnd="40dp"
+		android:layout_marginStart="30dp"
 		android:ems="10"
 		android:hint="@string/hint_email"
 		android:inputType="textEmailAddress"
+		android:minHeight="48dp"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="@+id/guideline" />
 
 	<EditText
 		android:id="@+id/editTextTextPassword"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:layout_marginEnd="40dp"
+		android:layout_marginStart="30dp"
 		android:layout_marginTop="30dp"
 		android:ems="10"
 		android:hint="@string/hint_password"
 		android:inputType="textPassword"
+		android:minHeight="48dp"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintHorizontal_bias="0.502"
 		app:layout_constraintStart_toStartOf="parent"
@@ -65,21 +71,27 @@
 
 	<Button
 		android:id="@+id/buttonSignIn"
-		style="@style/ButtonPrimary1"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="50dp"
+		android:layout_marginEnd="60dp"
+		android:layout_marginStart="60dp"
+		android:layout_marginTop="40dp"
+		android:backgroundTint="@color/green_primary"
 		android:text="@string/sign_in"
+		android:textColor="@color/white"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewPasswordError" />
+		app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
 	<TextView
 		android:id="@+id/textViewWelcome"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:layout_marginStart="30dp"
+		android:fontFamily="@font/poppins_bold"
 		android:text="@string/welcome"
-		android:textSize="20sp"
+		android:textColor="@color/black"
+		android:textSize="22sp"
 		app:layout_constraintBottom_toTopOf="@+id/editTextEmail"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"

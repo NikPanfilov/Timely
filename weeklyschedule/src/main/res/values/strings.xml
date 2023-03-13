@@ -1,0 +1,13 @@
+<resources>
+	<string name="week_dates">01.01–07.01</string>
+	<string name="prev_week">←</string>
+	<string name="next_week">→</string>
+	<string name="to_daily">Расписанию на день</string>
+	<string name="change_schedule">Сменить расписание</string>
+
+	<string name="laboratory">Лабораторная</string>
+	<string name="lecture">Лекция</string>
+	<string name="practise">Практика</string>
+	<string name="seminar">Семинар</string>
+	<string name="exam">Экзамен</string>
+</resources>

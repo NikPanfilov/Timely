@@ -1,5 +1,6 @@
 package com.tsu.signin.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.tsu.shared.GROUPS
+import com.tsu.shared.TEACHERS
+import com.tsu.signin.R
+import com.tsu.signin.databinding.DialogBinding
 import com.tsu.signin.databinding.FragmentSignInBinding
 import com.tsu.signin.presentation.SignInSendState
 import com.tsu.signin.presentation.SignInState
@@ -26,16 +31,11 @@ class SignInFragment : Fragment() {
 
 	private val viewModel by viewModel<SignInViewModel>()
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-	}
-
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
 		binding.bindData(viewModel, viewLifecycleOwner.lifecycleScope)
-		viewModel.init()
 
 		viewLifecycleOwner.lifecycleScope.launchWhenResumed {
 			viewModel.stateFlow.onEach {
@@ -54,7 +54,15 @@ class SignInFragment : Fragment() {
 
 				is SignInSendState.Success -> {
 					showToast("Success")
-					viewModel.navigateToWeeklySchedule()
+					viewModel.saveToken()
+					with(viewModel.tokenResponse) {
+						when {
+							group != null && teacher != null -> renderDialog(group.id!!, teacher.id!!)
+							group != null                    -> viewModel.navigateToDailySchedule(GROUPS, group.id!!)
+							teacher != null                  -> viewModel.navigateToDailySchedule(TEACHERS, teacher.id!!)
+							else                             -> viewModel.navigateToStart(role[0] ?: "")
+						}
+					}
 				}
 
 				else                       -> return
@@ -63,5 +71,26 @@ class SignInFragment : Fragment() {
 
 	private fun showToast(text: String) {
 		Toast.makeText(this.context, text, Toast.LENGTH_SHORT).show()
+	}
+
+	private fun renderDialog(groupId: String, teacherId: String) {
+		val dialogBinding = DialogBinding.inflate(layoutInflater)
+
+		val dialog = AlertDialog.Builder(this.context)
+			.setTitle(getString(R.string.dialog_title))
+			.setView(dialogBinding.root)
+			.create()
+
+		dialogBinding.dialogStudentButton.setOnClickListener {
+			viewModel.navigateToDailySchedule(GROUPS, groupId)
+			dialog.dismiss()
+		}
+
+		dialogBinding.dialogTeacherButton.setOnClickListener {
+			viewModel.navigateToDailySchedule(TEACHERS, teacherId)
+			dialog.dismiss()
+		}
+
+		dialog.show()
 	}
 }

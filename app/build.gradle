@@ -53,6 +53,9 @@ dependencies {
 	implementation project(path: ':signin')
 	implementation project(path: ':start')
 	implementation project(path: ':scheduleselection')
+	implementation project(path: ':dailyschedule')
+	implementation project(path: ':weeklyschedule')
+	implementation project(path: ':details')
 
 
 	testImplementation 'junit:junit:4.13.2'

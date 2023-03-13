@@ -1,0 +1,13 @@
+<resources>
+	<string name="placeholder_subject">Прокрастинация</string>
+	<string name="placeholder_type">Экзамен</string>
+	<string name="placeholder_time_interval">14:00 - 15:00</string>
+	<string name="placeholder_classroom">Аудитория 666</string>
+	<string name="placeholder_teacher">Панфилов Никита Андреевич</string>
+
+	<string name="laboratory">Лабораторная</string>
+	<string name="lecture">Лекция</string>
+	<string name="practise">Практика</string>
+	<string name="seminar">Семинар</string>
+	<string name="exam">Экзамен</string>
+</resources>
