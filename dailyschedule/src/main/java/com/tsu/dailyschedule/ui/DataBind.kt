@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter
 internal fun FragmentDailyScheduleBinding.bindData(viewModel: DailyScheduleViewModel, scope: LifecycleCoroutineScope, listAdapter: ScheduleAdapter) {
 	scope.launchWhenResumed {
 		viewModel.stateFlow.onEach {
+			updateButtons(viewModel.date)
 			when (viewModel.date.dayOfWeek) {
 				DayOfWeek.MONDAY    -> setChosen(mondayButton)
 				DayOfWeek.TUESDAY   -> setChosen(tuesdayButton)
@@ -31,13 +32,14 @@ internal fun FragmentDailyScheduleBinding.bindData(viewModel: DailyScheduleViewM
 			}
 
 			if (it is DailyScheduleState.Content && it.sendState is DailyScheduleSendState.Success) {
+				Log.i("viewModel.date", viewModel.date.toString())
 				if (viewModel.hasLessons()) {
-					Log.i("debug","has lessons")
+					Log.i("debug", "has lessons")
 					listAdapter.data = viewModel.schedule.value
 					scheduleRecyclerView.visibility = View.VISIBLE
 					noLessonImageView.visibility = View.GONE
 				} else {
-					Log.i("debug","no lessons")
+					Log.i("debug", "no lessons")
 					noLessonImageView.visibility = View.VISIBLE
 					scheduleRecyclerView.visibility = View.INVISIBLE
 				}
