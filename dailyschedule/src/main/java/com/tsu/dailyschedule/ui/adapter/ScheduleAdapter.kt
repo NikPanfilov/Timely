@@ -48,7 +48,7 @@ class ScheduleAdapter(
 		when (data[position]) {
 			is LessonItem -> (holder as LessonItemViewHolder).bind(data[position] as LessonItem, lessonClickListener, getColors, gestureDetector)
 			is BreakItem  -> (holder as BreakItemViewHolder).bind(data[position] as BreakItem, breakClickListener, gestureDetector)
-			is BookedItem -> (holder as BookItemViewHolder).bind(data[position] as BookedItem, breakClickListener, gestureDetector)
+			is BookedItem -> (holder as BookItemViewHolder).bind(data[position] as BookedItem, gestureDetector)
 		}
 
 	}
@@ -110,7 +110,7 @@ class ScheduleAdapter(
 		private val binding: BookItemBinding
 	) : ViewHolder(binding.root) {
 
-		fun bind(item: BookedItem, clickListener: (Int) -> Unit, gestureDetector: GestureDetectorCompat) {
+		fun bind(item: BookedItem, gestureDetector: GestureDetectorCompat) {
 			with(binding) {
 				val timeText = "${item.booked.starts} - ${item.booked.ends}"
 				timeTextView.text = timeText
