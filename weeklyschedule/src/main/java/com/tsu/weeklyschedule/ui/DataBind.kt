@@ -1,13 +1,12 @@
 package com.tsu.weeklyschedule.ui
 
-import androidx.lifecycle.LifecycleCoroutineScope
 import com.tsu.weeklyschedule.databinding.FragmentWeeklyScheduleBinding
 import com.tsu.weeklyschedule.presentation.WeeklyScheduleViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-internal fun FragmentWeeklyScheduleBinding.bindData(viewModel: WeeklyScheduleViewModel, scope: LifecycleCoroutineScope) {
+internal fun FragmentWeeklyScheduleBinding.bindData(viewModel: WeeklyScheduleViewModel) {
 	with(viewModel) {
 		getWeekText(date)
 		buttonPrevWeek.setOnClickListener {

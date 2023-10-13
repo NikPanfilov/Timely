@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:padding="16dp">
+
+	<!-- Заголовок -->
+	<TextView
+		android:id="@+id/titleTextView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/book_title"
+		android:textSize="18sp"/>
+
+	<!-- Поле для ввода заголовка -->
+	<EditText
+		android:id="@+id/titleEditText"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/titleTextView"
+		android:layout_marginTop="8dp"
+		android:hint="Просмотр Boku no Pico"
+		android:inputType="text"
+		android:textSize="16sp"/>
+
+	<AutoCompleteTextView
+		android:id="@+id/spinnerAudiences"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/titleEditText"
+		android:layout_marginTop="16dp"
+		android:completionThreshold="1"/>
+
+	<MultiAutoCompleteTextView
+		android:id="@+id/spinnerGroups"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/spinnerAudiences"
+		android:layout_marginTop="16dp"
+		android:completionThreshold="1"/>
+
+	<!-- Кнопка "ОК" для подтверждения -->
+	<Button
+		android:id="@+id/okButton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/spinnerGroups"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="16dp"
+		android:text="ОК"
+		style="@style/DayButtonUnChoosed"/>
+
+</RelativeLayout>

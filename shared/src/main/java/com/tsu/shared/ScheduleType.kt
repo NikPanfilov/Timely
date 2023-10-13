@@ -1,5 +1,5 @@
 package com.tsu.shared
 
-const val GROUPS="groups"
-const val TEACHERS="teachers"
-const val CLASSROOMS="classrooms"
+const val GROUPS = "Group"
+const val PROFESSORS = "Professor"
+const val AUDIENCES = "Audience"

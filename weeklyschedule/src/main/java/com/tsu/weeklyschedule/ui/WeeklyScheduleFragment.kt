@@ -1,18 +1,23 @@
 package com.tsu.weeklyschedule.ui
 
+import android.app.AlertDialog
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.TableRow
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.tsu.shared.entity.Lesson
-import com.tsu.shared.time.intervals.domain.entity.TimeInterval
+import com.tsu.shared.AUDIENCES
+import com.tsu.shared.GROUPS
+import com.tsu.shared.entity.TimeSlot
 import com.tsu.weeklyschedule.R
+import com.tsu.weeklyschedule.databinding.BookDialogBinding
+import com.tsu.weeklyschedule.databinding.BookedItemBinding
 import com.tsu.weeklyschedule.databinding.DateItemBinding
 import com.tsu.weeklyschedule.databinding.EmptyItemBinding
 import com.tsu.weeklyschedule.databinding.FragmentWeeklyScheduleBinding
@@ -50,14 +55,10 @@ class WeeklyScheduleFragment : Fragment() {
 		)
 	}
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-	}
-
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
 	): View {
-		binding.bindData(viewModel, viewLifecycleOwner.lifecycleScope)
+		binding.bindData(viewModel)
 		viewModel.init()
 		viewModel.getSchedule()
 
@@ -74,20 +75,21 @@ class WeeklyScheduleFragment : Fragment() {
 		return binding.root
 	}
 
-	private fun drawTable(schedule: List<List<Lesson?>>) {
-
+	private fun drawTable(schedule: List<List<TimeSlot>>) {
 		binding.tableLayout.addView(renderDateRow())
 
-		for (i in viewModel.intervals.indices) {
+		for (i in 0..6) {
 			val tableRow = TableRow(context)
 
-			tableRow.addView(renderIntervalCell(viewModel.intervals[i]))
+			tableRow.addView(renderIntervalCell(schedule[i][0]))
 
 			for (lesson in schedule[i]) {
-				if (lesson != null)
+				if (lesson is TimeSlot.Lesson)
 					tableRow.addView(renderCell(lesson))
-				else
-					tableRow.addView(EmptyItemBinding.inflate(layoutInflater).root)
+				else if (lesson is TimeSlot.Break)
+					tableRow.addView(renderCell(lesson))
+				else if (lesson is TimeSlot.Booked)
+					tableRow.addView(renderCell(lesson))
 			}
 			binding.tableLayout.addView(tableRow)
 		}
@@ -108,25 +110,25 @@ class WeeklyScheduleFragment : Fragment() {
 		return row
 	}
 
-	private fun renderIntervalCell(interval: TimeInterval): View {
+	private fun renderIntervalCell(timeSlot: TimeSlot): View {
 		val cell = IntervalItemBinding.inflate(layoutInflater)
-		cell.startTimeTextView.text = interval.startTime
-		cell.endTimeTextView.text = interval.endTime
+		cell.startTimeTextView.text = timeSlot.starts.toString()
+		cell.endTimeTextView.text = timeSlot.ends.toString()
 
 		return cell.root
 	}
 
-	private fun renderCell(lesson: Lesson): View {
+	private fun renderCell(lesson: TimeSlot.Lesson): View {
 		val cell = WeeklyLessonItemBinding.inflate(layoutInflater)
-		cell.subjectTextView.text = lesson.name.name
-		cell.classroomTextView.text = lesson.classroom.name
+		cell.subjectTextView.text = lesson.title
+		cell.classroomTextView.text = lesson.audience.name
 
 		val builder = StringBuilder()
-		lesson.group.forEach { builder.append(it.name + "\n") }
+		lesson.groups.forEach { builder.append(it.name + "\n") }
 		builder.dropLast(1)
 		cell.groupTextView.text = builder
 
-		when (lesson.tag.name) {
+		when (lesson.type) {
 			getString(R.string.laboratory) -> cell.setCellColor(R.color.laboratory, R.color.laboratory_text)
 
 			getString(R.string.lecture)    -> cell.setCellColor(R.color.lecture, R.color.lecture_text)
@@ -153,4 +155,74 @@ class WeeklyScheduleFragment : Fragment() {
 	private fun getColor(id: Int) =
 		ContextCompat.getColor(requireContext(), id)
 
+	private fun renderCell(breakSlot: TimeSlot.Break): View {
+		val cell = EmptyItemBinding.inflate(layoutInflater)
+		cell.bookButton.setOnClickListener {
+			openDialog(breakSlot.date, breakSlot.timeSlot)
+		}
+
+		return cell.root
+	}
+
+	private fun renderCell(booked: TimeSlot.Booked): View {
+		val cell = BookedItemBinding.inflate(layoutInflater)
+		cell.bookDescriptionTextView.text = booked.description
+		cell.classroomTextView.text = booked.audience.name
+
+		val builder = StringBuilder()
+		booked.groups.forEach { builder.append(it.name + "\n") }
+		builder.dropLast(1)
+		cell.groupTextView.text = builder
+
+		return cell.root
+	}
+
+	private fun openDialog(date: LocalDate, timeSlot: Int) {
+		val dialogBinding = BookDialogBinding.inflate(layoutInflater)
+		val dialog = AlertDialog.Builder(requireContext()).setView(dialogBinding.root).create()
+		dialogBinding.bindAudiences(date, timeSlot)
+		dialogBinding.bindGroups()
+		dialog.show()
+
+		dialogBinding.okButton.setOnClickListener {
+			viewModel.bookAudience(
+				audienceName = dialogBinding.spinnerAudiences.text.toString(),
+				groupsId = selectedGroups,
+				timeSlot = timeSlot,
+				description = dialogBinding.titleEditText.text.toString()
+			)
+			dialog.dismiss()
+		}
+	}
+
+	private fun BookDialogBinding.bindAudiences(date: LocalDate, timeSlot: Int) {
+		val audiences = viewModel.getFreeAudiences(date, timeSlot)
+		val adapter = ArrayAdapter<Any?>(requireContext(), android.R.layout.simple_spinner_item, audiences.map { it.name })
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+		spinnerAudiences.setAdapter(adapter)
+
+		if (arguments?.get(TYPE) == AUDIENCES)
+			audiences.find { it.id == arguments?.get(ID) }?.let { spinnerAudiences.setText(it.name, false) }
+	}
+
+	private val selectedGroups = mutableListOf<String>()
+	private fun BookDialogBinding.bindGroups() {
+		val groups = viewModel.groups.value
+		val adapter = ArrayAdapter<Any?>(requireContext(), android.R.layout.simple_spinner_item, groups.map { it.name })
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+		spinnerGroups.setAdapter(adapter)
+		spinnerGroups.setOnItemClickListener { parent, view, position, l ->
+			val selectedItem = parent.getItemAtPosition(position).toString()
+			if (selectedGroups.contains(selectedItem))
+				selectedGroups.remove(selectedItem)
+			else
+				selectedGroups.add(selectedItem)
+		}
+
+		if (arguments?.get(TYPE) == GROUPS)
+			groups.find { it.id == arguments?.get(ID) }?.let {
+				spinnerGroups.setText(it.name, false)
+				selectedGroups.add(it.name)
+			}
+	}
 }

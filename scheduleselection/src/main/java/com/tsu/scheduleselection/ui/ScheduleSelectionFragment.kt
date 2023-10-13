@@ -13,7 +13,7 @@ import com.tsu.scheduleselection.databinding.FragmentScheduleSelectionBinding
 import com.tsu.scheduleselection.presentation.ScheduleSelectionViewModel
 import com.tsu.scheduleselection.ui.adapter.SearchAdapter
 import com.tsu.shared.GROUPS
-import com.tsu.shared.TEACHERS
+import com.tsu.shared.PROFESSORS
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -28,15 +28,10 @@ class ScheduleSelectionFragment : Fragment() {
 
 	private lateinit var adapter: SearchAdapter
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-	}
-
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-
 		adapter = SearchAdapter(this::clickListItem)
 
 		binding.searchRecyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -45,9 +40,9 @@ class ScheduleSelectionFragment : Fragment() {
 		binding.bindData(viewModel, viewLifecycleOwner.lifecycleScope, adapter)
 
 		binding.editTextSearch.hint = when (searchType) {
-			GROUPS   -> getString(R.string.hint_group)
-			TEACHERS -> getString(R.string.hint_teacher)
-			else     -> getString(R.string.hint_classroom)
+			GROUPS     -> getString(R.string.hint_group)
+			PROFESSORS -> getString(R.string.hint_teacher)
+			else       -> getString(R.string.hint_classroom)
 		}
 
 		return binding.root

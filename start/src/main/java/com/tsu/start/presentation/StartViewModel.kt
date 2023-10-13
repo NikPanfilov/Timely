@@ -3,7 +3,7 @@ package com.tsu.start.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tsu.shared.GROUPS
-import com.tsu.shared.TEACHERS
+import com.tsu.shared.PROFESSORS
 import com.tsu.shared.network.utils.CoroutineNetworkExceptionHandler
 import com.tsu.start.domain.model.UserData
 import com.tsu.start.domain.usecase.ClearUserDataUseCase
@@ -39,7 +39,7 @@ class StartViewModel(
 	}
 
 	private fun navigateToUserSchedule() {
-		if (data.id != null && (data.type == GROUPS || data.type == TEACHERS) && data.token != null)
+		if (data.id != null && (data.type == GROUPS || data.type == PROFESSORS) && data.token != null)
 			navigateToDailySchedule(data.type, data.id)
 	}
 

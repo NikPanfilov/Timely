@@ -2,19 +2,24 @@ package com.tsu.weeklyschedule.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tsu.shared.entity.Lesson
+import com.tsu.shared.date.toFormattedString
+import com.tsu.shared.entity.Audience
+import com.tsu.shared.entity.Group
+import com.tsu.shared.entity.TimeSlot
 import com.tsu.shared.navigation.holder.LessonHolder
 import com.tsu.shared.network.utils.CoroutineNetworkExceptionHandler
-import com.tsu.shared.time.intervals.domain.entity.TimeInterval
-import com.tsu.shared.time.intervals.domain.usecase.GetTimeIntervalsUseCase
-import com.tsu.weeklyschedule.domain.usecase.GetWeeklyScheduleUseCase
+import com.tsu.shared.schedule.domain.entity.Booking
+import com.tsu.shared.schedule.domain.entity.ScheduleDay
+import com.tsu.shared.schedule.domain.usecase.BookAudienceUseCase
+import com.tsu.shared.schedule.domain.usecase.GetAudiencesUseCase
+import com.tsu.shared.schedule.domain.usecase.GetGroupsUseCase
+import com.tsu.shared.schedule.domain.usecase.GetWeeklyScheduleUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.time.DayOfWeek
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
-import java.time.temporal.TemporalAdjusters
 
 class WeeklyScheduleViewModel(
 	private val id: String,
@@ -22,16 +27,17 @@ class WeeklyScheduleViewModel(
 	private val currentDate: LocalDate,
 	private val router: WeeklyScheduleRouter,
 	private val getWeeklyScheduleUseCase: GetWeeklyScheduleUseCase,
-	private val getTimeIntervalsUseCase: GetTimeIntervalsUseCase
+	private val bookAudienceUseCase: BookAudienceUseCase,
+	private val getAudiencesUseCase: GetAudiencesUseCase,
+	private val getGroupsUseCase: GetGroupsUseCase,
 ) : ViewModel() {
 
 	var date = currentDate
 
-	lateinit var intervals: List<TimeInterval>
+	private val _schedule = MutableStateFlow<List<ScheduleDay>>(listOf())
 
-	private val _schedule = MutableStateFlow<List<Lesson>>(listOf())
-	val schedule: Flow<List<Lesson>>
-		get() = _schedule.asStateFlow()
+	val audiences = MutableStateFlow<List<Audience>>(emptyList())
+	val groups = MutableStateFlow<List<Group>>(emptyList())
 
 	private val _stateFlow = MutableStateFlow<WeeklyScheduleState>(WeeklyScheduleState.Initial)
 	val stateFlow: Flow<WeeklyScheduleState>
@@ -50,31 +56,43 @@ class WeeklyScheduleViewModel(
 	fun getSchedule() {
 		viewModelScope.launch(sendErrorHandler) {
 			_stateFlow.value = WeeklyScheduleState.Content(WeeklyScheduleSendState.Loading)
-			intervals = getTimeIntervalsUseCase().sortedBy { it.startTime }
-			_schedule.value = getWeeklyScheduleUseCase(type = scheduleType.dropLast(1), id = id, date = date)
+			_schedule.value = getWeeklyScheduleUseCase(type = scheduleType, itemId = id, date = date)
+			groups.value = getGroupsUseCase()
 			_stateFlow.value = WeeklyScheduleState.Content(WeeklyScheduleSendState.Success)
 		}
 	}
 
-	fun renderSchedule(): List<List<Lesson?>> {
-		val scheduleTable = mutableListOf<List<Lesson?>>()
-		for (interval in intervals) {
-			scheduleTable.add(createRow(_schedule.value.filter { it.timeInterval.startTime == interval.startTime }.sortedBy { it.date }))
+	fun renderSchedule(): List<List<TimeSlot>> {
+		val scheduleTable = mutableListOf<List<TimeSlot>>()
+		val sortedSchedule = _schedule.value.sortedBy { it.date }
+		for (slot in 1..7) {
+			val day = mutableListOf<TimeSlot>()
+			sortedSchedule.forEach { day.add(it.timeSlots.first { schedule -> schedule.timeSlot == slot }) }
+			scheduleTable.add(day)
 		}
 
 		return scheduleTable
 	}
 
-	private fun createRow(row: List<Lesson>): List<Lesson?> {
-		val monday = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+	fun getFreeAudiences(date: LocalDate, timeSlot: Int): List<Audience> {
+		audiences.value = runBlocking { getAudiencesUseCase(date, timeSlot) }
+		return audiences.value
+	}
 
-		val resultSchedule = mutableListOf<Lesson?>()
-		for (i in 0..6) {
-			val currentDate = monday.plusDays(i.toLong())
-			resultSchedule.add(row.find { it.date == currentDate })
+	fun bookAudience(audienceName: String, groupsId: List<String>, timeSlot: Int, description: String) {
+		viewModelScope.launch(sendErrorHandler) {
+			val audienceId = audiences.value.find { it.name == audienceName }?.id ?: return@launch
+			bookAudienceUseCase(
+				Booking(
+					date = date.toFormattedString(),
+					description = description,
+					groupsId = groupsId,
+					audienceId = audienceId,
+					timeSlot = timeSlot,
+				)
+			)
+			getSchedule()
 		}
-
-		return resultSchedule
 	}
 
 	fun navigateToWeeklySchedule() {
@@ -85,7 +103,7 @@ class WeeklyScheduleViewModel(
 		router.navigateToStart()
 	}
 
-	fun navigateToDetails(lesson: Lesson) {
+	fun navigateToDetails(lesson: TimeSlot.Lesson) {
 		router.navigateToDetails(LessonHolder(lesson))
 	}
 }

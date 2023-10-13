@@ -2,13 +2,40 @@ package com.tsu.shared.entity
 
 import java.time.LocalDate
 
-data class Lesson(
-	val name: Name,
-	val tag: Tag,
-	val group: List<Group>,
-	val teacher: Teacher,
-	val timeInterval: TimeInterval,
-	val date: LocalDate,
-	val classroom: Classroom,
-	val id: String?
-) : java.io.Serializable
+sealed class TimeSlot {
+
+	abstract val type: String
+	abstract val starts: String
+	abstract val ends: String
+	abstract val timeSlot: Int
+
+	data class Lesson(
+		val id: String,
+		override val starts: String,
+		override val ends: String,
+		override val timeSlot: Int,
+		val audience: Audience,
+		override val type: String,
+		val title: String,
+		val groups: List<Group>,
+		val professor: Professor,
+	) : java.io.Serializable, TimeSlot()
+
+	data class Break(
+		override val type: String,
+		override val starts: String,
+		override val ends: String,
+		override val timeSlot: Int,
+		val date: LocalDate,
+	) : TimeSlot()
+
+	data class Booked(
+		override val type: String,
+		override val starts: String,
+		override val ends: String,
+		override val timeSlot: Int,
+		val audience: Audience,
+		val groups: List<Group>,
+		val description: String,
+	) : TimeSlot()
+}

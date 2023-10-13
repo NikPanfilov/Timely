@@ -4,6 +4,9 @@
 	<string name="next_week">→</string>
 	<string name="to_daily">Расписанию на день</string>
 	<string name="change_schedule">Сменить расписание</string>
+	<string name="book">Забронировать</string>
+	<string name="book_title">Цель бронирования:</string>
+	<string name="book_hint">Просмотр Boku no Pico</string>
 
 	<string name="laboratory">Лабораторная</string>
 	<string name="lecture">Лекция</string>

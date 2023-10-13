@@ -7,23 +7,23 @@ import com.tsu.details.R
 import com.tsu.details.databinding.FragmentDetailsBinding
 import com.tsu.details.presentation.DetailsViewModel
 import com.tsu.details.ui.adapter.GroupsAdapter
-import com.tsu.shared.CLASSROOMS
-import com.tsu.shared.TEACHERS
+import com.tsu.shared.AUDIENCES
+import com.tsu.shared.PROFESSORS
 
 internal fun FragmentDetailsBinding.bindData(viewModel: DetailsViewModel, listAdapter: GroupsAdapter) {
 	with(viewModel.lesson) {
-		listAdapter.data = group
-		subjectTextView.text = name.name
-		typeTextView.text = tag.name
+		listAdapter.data = groups
+		subjectTextView.text = title
+		typeTextView.text = type
 		typeTextView.setColor()
-		classroomTextView.text = classroom.name
-		teacherTextView.text = teacher.name
+		classroomTextView.text = audience.name
+		teacherTextView.text = professor.fullName
 
-		val time = timeInterval.startTime + " : " + timeInterval.endTime
+		val time = "$starts : $ends"
 		timeIntervalTextView.text = time
 
-		classroomTextView.setOnClickListener { viewModel.navigateToDailySchedule(classroom.id!!, CLASSROOMS) }
-		teacherTextView.setOnClickListener { viewModel.navigateToDailySchedule(teacher.id!!, TEACHERS) }
+		classroomTextView.setOnClickListener { viewModel.navigateToDailySchedule(audience.id!!, AUDIENCES) }
+		teacherTextView.setOnClickListener { viewModel.navigateToDailySchedule(professor.id, PROFESSORS) }
 	}
 }
 

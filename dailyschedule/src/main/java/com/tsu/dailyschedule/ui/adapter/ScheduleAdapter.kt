@@ -5,16 +5,21 @@ import android.view.ViewGroup
 import androidx.core.view.GestureDetectorCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.tsu.dailyschedule.databinding.EmptyLessonItemBinding
+import com.tsu.dailyschedule.databinding.BookItemBinding
+import com.tsu.dailyschedule.databinding.BreakItemBinding
 import com.tsu.dailyschedule.databinding.LessonItemBinding
+import com.tsu.dailyschedule.domain.entity.BookedItem
+import com.tsu.dailyschedule.domain.entity.BreakItem
 import com.tsu.dailyschedule.domain.entity.DailyItem
-import com.tsu.dailyschedule.domain.entity.EmptyLessonItem
 import com.tsu.dailyschedule.domain.entity.LessonItem
 import com.tsu.dailyschedule.ui.ColorBundle
-import com.tsu.shared.entity.Lesson
+import com.tsu.shared.entity.TimeSlot
 
 class ScheduleAdapter(
-	private val clickListener: (Lesson) -> Unit, private val getColors: (String) -> ColorBundle, private val gestureDetector: GestureDetectorCompat
+	private val lessonClickListener: (TimeSlot.Lesson) -> Unit,
+	private val breakClickListener: (Int) -> Unit,
+	private val getColors: (String) -> ColorBundle,
+	private val gestureDetector: GestureDetectorCompat,
 ) : RecyclerView.Adapter<ViewHolder>() {
 
 	var data: List<DailyItem> = emptyList()
@@ -25,56 +30,53 @@ class ScheduleAdapter(
 
 	companion object {
 
-		const val EMPTY = 1
-		const val LESSON = 0
+		const val LESSON = 1
+		const val BREAK = 2
+		const val STATIC_BREAK = 3
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 		val inflater = LayoutInflater.from(parent.context)
 		return when (viewType) {
 			LESSON -> LessonItemViewHolder(LessonItemBinding.inflate(inflater, parent, false))
-			else   -> EmptyLessonItemViewHolder(EmptyLessonItemBinding.inflate(inflater, parent, false))
+			BREAK  -> BreakItemViewHolder(BreakItemBinding.inflate(inflater, parent, false))
+			else   -> BookItemViewHolder(BookItemBinding.inflate(inflater, parent, false))
 		}
 	}
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-		if (data[position] is LessonItem) (holder as LessonItemViewHolder).bind(data[position] as LessonItem, clickListener, getColors, gestureDetector)
-		else (holder as EmptyLessonItemViewHolder).bind(data[position] as EmptyLessonItem, gestureDetector)
+		when (data[position]) {
+			is LessonItem -> (holder as LessonItemViewHolder).bind(data[position] as LessonItem, lessonClickListener, getColors, gestureDetector)
+			is BreakItem  -> (holder as BreakItemViewHolder).bind(data[position] as BreakItem, breakClickListener, gestureDetector)
+			is BookedItem -> (holder as BookItemViewHolder).bind(data[position] as BookedItem, breakClickListener, gestureDetector)
+		}
+
 	}
 
-	override fun getItemViewType(position: Int): Int {
-		return when (data[position]) {
-			is LessonItem -> LESSON
-			else          -> EMPTY
-		}
+	override fun getItemViewType(position: Int): Int = when (data[position]) {
+		is LessonItem -> LESSON
+		is BreakItem  -> BREAK
+		else          -> STATIC_BREAK
 	}
 
 	override fun getItemCount() = data.size
 
-	class EmptyLessonItemViewHolder(private val binding: EmptyLessonItemBinding) : ViewHolder(binding.root) {
+	class LessonItemViewHolder(
+		private val binding: LessonItemBinding
+	) : ViewHolder(binding.root) {
 
-		fun bind(data: EmptyLessonItem, gestureDetector: GestureDetectorCompat) {
-			val timeText = "${data.startTime} - ${data.endTime}"
-			binding.timeTextView.text = timeText
-
-			binding.root.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
-		}
-	}
-
-	class LessonItemViewHolder(private val binding: LessonItemBinding) : ViewHolder(binding.root) {
-
-		fun bind(item: LessonItem, clickListener: (Lesson) -> Unit, getColors: (String) -> ColorBundle, gestureDetector: GestureDetectorCompat) {
+		fun bind(item: LessonItem, clickListener: (TimeSlot.Lesson) -> Unit, getColors: (String) -> ColorBundle, gestureDetector: GestureDetectorCompat) {
 			with(binding) {
 				val lesson = item.lesson
-				subjectTextView.text = lesson.name.name
-				groupTextView.text = lesson.group[0].name
-				teacherTextView.text = lesson.teacher.name
-				classroomTextView.text = lesson.classroom.name
+				subjectTextView.text = lesson.title
+				groupTextView.text = lesson.groups.first().name
+				teacherTextView.text = lesson.professor.shortName
+				classroomTextView.text = lesson.audience.name
 
-				val timeText = "${lesson.timeInterval.startTime} - ${lesson.timeInterval.endTime}"
+				val timeText = "${lesson.starts} - ${lesson.ends}"
 				timeTextView.text = timeText
 
-				val colors = getColors(lesson.tag.name)
+				val colors = getColors(lesson.type)
 				view.setBackgroundColor(colors.background)
 
 				subjectTextView.setTextColor(colors.text)
@@ -84,6 +86,36 @@ class ScheduleAdapter(
 				timeTextView.setTextColor(colors.text)
 
 				binding.root.setOnClickListener { clickListener(lesson) }
+				binding.root.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+			}
+		}
+	}
+
+	class BreakItemViewHolder(
+		private val binding: BreakItemBinding
+	) : ViewHolder(binding.root) {
+
+		fun bind(item: BreakItem, clickListener: (Int) -> Unit, gestureDetector: GestureDetectorCompat) {
+			with(binding) {
+				val timeText = "${item.breakItem.starts} - ${item.breakItem.ends}"
+				timeTextView.text = timeText
+
+				binding.bookButton.setOnClickListener { clickListener(item.breakItem.timeSlot) }
+				binding.root.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+			}
+		}
+	}
+
+	class BookItemViewHolder(
+		private val binding: BookItemBinding
+	) : ViewHolder(binding.root) {
+
+		fun bind(item: BookedItem, clickListener: (Int) -> Unit, gestureDetector: GestureDetectorCompat) {
+			with(binding) {
+				val timeText = "${item.booked.starts} - ${item.booked.ends}"
+				timeTextView.text = timeText
+				bookTitleTextView.text = item.booked.description
+
 				binding.root.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
 			}
 		}

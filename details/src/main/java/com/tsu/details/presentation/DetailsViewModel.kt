@@ -7,10 +7,6 @@ class DetailsViewModel(private val router: DetailsRouter, lessonHolder: LessonHo
 
 	val lesson = lessonHolder.lesson
 
-	init {
-
-	}
-
 	fun navigateToDailySchedule(id: String, scheduleType: String) {
 		router.navigateToDailySchedule(id, scheduleType)
 	}

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="horizontal"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:orientation="horizontal"
+	android:paddingHorizontal="15dp"
+	android:paddingVertical="3dp">
 
-	<View
-		android:id="@+id/emptyView"
+	<Button
+		android:id="@+id/bookButton"
 		android:layout_width="0dp"
 		android:layout_height="match_parent"
-		android:layout_margin="15dp"
 		android:layout_weight="1"
-		android:background="@drawable/empty_view"
-		android:minHeight="75dp"
-		android:minWidth="200dp" />
+		android:text="@string/book"
+		style="@style/DayButtonUnChoosed"/>
 </LinearLayout>

@@ -9,4 +9,8 @@
 	<string name="practise">Практика</string>
 	<string name="seminar">Семинар</string>
 	<string name="exam">Экзамен</string>
+
+	<string name="book">Забронировать</string>
+	<string name="book_title">Цель бронирования</string>
+	<string name="book_hint">Просмотр Boku no Pico</string>
 </resources>

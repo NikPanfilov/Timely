@@ -7,10 +7,14 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.tsu.dailyschedule.R
 import com.tsu.dailyschedule.databinding.FragmentDailyScheduleBinding
+import com.tsu.dailyschedule.domain.entity.BookedItem
+import com.tsu.dailyschedule.domain.entity.BreakItem
+import com.tsu.dailyschedule.domain.entity.LessonItem
 import com.tsu.dailyschedule.presentation.DailyScheduleSendState
 import com.tsu.dailyschedule.presentation.DailyScheduleState
 import com.tsu.dailyschedule.presentation.DailyScheduleViewModel
 import com.tsu.dailyschedule.ui.adapter.ScheduleAdapter
+import com.tsu.shared.entity.TimeSlot
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import java.time.DayOfWeek
@@ -33,16 +37,15 @@ internal fun FragmentDailyScheduleBinding.bindData(viewModel: DailyScheduleViewM
 
 			if (it is DailyScheduleState.Content && it.sendState is DailyScheduleSendState.Success) {
 				Log.i("viewModel.date", viewModel.date.toString())
-				if (viewModel.hasLessons()) {
-					Log.i("debug", "has lessons")
-					listAdapter.data = viewModel.schedule.value
-					scheduleRecyclerView.visibility = View.VISIBLE
-					noLessonImageView.visibility = View.GONE
-				} else {
-					Log.i("debug", "no lessons")
-					noLessonImageView.visibility = View.VISIBLE
-					scheduleRecyclerView.visibility = View.INVISIBLE
+				listAdapter.data = viewModel.schedule.value.map {
+					when (it) {
+						is TimeSlot.Lesson -> LessonItem(it)
+						is TimeSlot.Booked -> BookedItem(it)
+						is TimeSlot.Break  -> BreakItem(it)
+					}
 				}
+				scheduleRecyclerView.visibility = View.VISIBLE
+				noLessonImageView.visibility = View.GONE
 			}
 		}.collect()
 	}
@@ -105,7 +108,6 @@ private fun FragmentDailyScheduleBinding.setChosen(chosen: Button) {
 	val green = ContextCompat.getColor(root.context, R.color.green_primary)
 	for (id in daysGroup.referencedIds) {
 		val button = linearLayout.findViewById<Button>(id)
-		Log.i("wtf", id.toString())
 		button.setTextColor(green)
 		button.setBackgroundColor(white)
 	}

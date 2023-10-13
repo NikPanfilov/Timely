@@ -2,6 +2,7 @@ package com.tsu.signin.ui
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.tsu.shared.GROUPS
-import com.tsu.shared.TEACHERS
+import com.tsu.shared.PROFESSORS
 import com.tsu.signin.R
 import com.tsu.signin.databinding.DialogBinding
 import com.tsu.signin.databinding.FragmentSignInBinding
@@ -53,13 +54,14 @@ class SignInFragment : Fragment() {
 				is SignInSendState.Error   -> showToast("Request error ${state.sendState.errorCode}")
 
 				is SignInSendState.Success -> {
+					Log.i("debug", "sign in")
 					showToast("Success")
 					viewModel.saveToken()
 					with(viewModel.tokenResponse) {
 						when {
-							group != null && teacher != null -> renderDialog(group.id!!, teacher.id!!)
-							group != null                    -> viewModel.navigateToDailySchedule(GROUPS, group.id!!)
-							teacher != null                  -> viewModel.navigateToDailySchedule(TEACHERS, teacher.id!!)
+							group != null && teacher != null -> renderDialog(group, teacher)
+							group != null                    -> viewModel.navigateToDailySchedule(GROUPS, group)
+							teacher != null                  -> viewModel.navigateToDailySchedule(PROFESSORS, teacher)
 							else                             -> viewModel.navigateToStart(role[0] ?: "")
 						}
 					}
@@ -87,7 +89,7 @@ class SignInFragment : Fragment() {
 		}
 
 		dialogBinding.dialogTeacherButton.setOnClickListener {
-			viewModel.navigateToDailySchedule(TEACHERS, teacherId)
+			viewModel.navigateToDailySchedule(PROFESSORS, teacherId)
 			dialog.dismiss()
 		}
 
